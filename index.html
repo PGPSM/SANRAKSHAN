@@ -20,8 +20,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --nav-h: 72px; --bar-h: 37px; }
-        @media (min-width: 1024px) { :root { --nav-h: 80px; } }
+        :root { --nav-h: 76px; --bar-h: 37px; }
+        @media (min-width: 1024px) { :root { --nav-h: 96px; } }
+        .nav-logo { transition: height .3s ease; }
+        @media (min-width: 1024px) { #site-nav.scrolled .nav-logo { height: 60px; } }
 
         /* HERO: always fits inside the first screen on laptops/desktops */
         @media (min-width: 1024px) {
@@ -32,7 +34,10 @@
             .hero-btn { padding-top: clamp(0.75rem, 1.8vh, 1rem); padding-bottom: clamp(0.75rem, 1.8vh, 1rem); }
             .hero-stats { padding-top: clamp(0.75rem, 2.2vh, 1.5rem); }
         }
+
+        .hero-watermark { font-size: clamp(7rem, 16vh, 12rem); color: transparent; -webkit-text-stroke: 1.5px rgba(52,211,153,.16); }
         @media (min-width: 1024px) and (max-height: 640px) { .hero-stats { display: none; } }
+        @media (min-width: 1024px) and (max-height: 700px) { :root { --nav-h: 80px; } .nav-logo { height: 60px !important; } #home .hero-grid { min-height: 0; } .hero-watermark { display: none !important; } }
 
         body { font-family: 'Inter', sans-serif; }
         .font-serif-display { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; letter-spacing: -0.02em; }
@@ -108,6 +113,28 @@
         .day-panel { animation: fadeUp .5s ease both; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
+
+        /* Spotlight that follows the mouse on cards */
+        .spotlight { position: relative; isolation: isolate; }
+        .spotlight::before { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .35s ease;
+            background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(16,185,129,.14), transparent 45%); }
+        .spotlight:hover::before { opacity: 1; }
+        #paradigm .spotlight > * { position: relative; }
+
+        /* Slow drifting glow blobs */
+        @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,40px) scale(1.12); } }
+        .blob { animation: drift 16s ease-in-out infinite; }
+        .blob-2 { animation-duration: 20s; animation-direction: reverse; }
+
+        /* Endless photo strip */
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-50% - .5rem)); } }
+        .marquee-track { animation: marquee 45s linear infinite; }
+        .marquee-mask:hover .marquee-track { animation-play-state: paused; }
+        .marquee-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+        .marquee-img { height: 9.5rem; width: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; filter: saturate(.9); transition: transform .5s ease, filter .5s ease; }
+        .marquee-img:hover { transform: scale(1.04) rotate(-1deg); filter: saturate(1.1); }
+        @media (min-width: 640px) { .marquee-img { height: 13rem; } }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition: none !important; }
             .reveal { opacity: 1; transform: none; }
@@ -126,14 +153,14 @@
 
     <!-- NAVBAR -->
     <nav id="site-nav" class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div id="nav-inner" class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between gap-4">
+        <div id="nav-inner" class="max-w-7xl 2xl:max-w-none 2xl:px-[clamp(4rem,7vw,9rem)] mx-auto px-5 lg:px-8 flex items-center justify-between gap-4">
             <a href="#home" class="flex items-center gap-3 sm:gap-4 min-w-0" aria-label="Sanrakshan 2026 home">
-                <img src="images/logo-iiml.webp" alt="IIM Lucknow logo" class="h-11 lg:h-14 w-auto object-contain" width="398" height="340">
-                <span class="h-9 lg:h-11 w-px bg-slate-200"></span>
-                <img src="images/logo-event.webp" alt="Sanrakshan logo" class="h-11 lg:h-14 w-auto object-contain" width="348" height="302">
+                <img src="images/logo-iiml.webp" alt="IIM Lucknow logo" class="nav-logo h-14 lg:h-[72px] w-auto object-contain rounded-md" width="398" height="340">
+                <span class="h-10 lg:h-14 w-px bg-slate-200"></span>
+                <img src="images/logo-event.webp" alt="Sanrakshan logo" class="nav-logo h-14 lg:h-[72px] w-auto object-contain" width="348" height="302">
                 <span class="hidden sm:block leading-tight min-w-0">
-                    <span class="font-serif-display text-xl lg:text-2xl font-semibold block text-slate-900">Sanrakshan <span class="text-emerald-600">2026</span></span>
-                    <span class="font-label text-[10px] uppercase tracking-[0.2em] text-slate-500 block mt-0.5">IIM Lucknow · Noida</span>
+                    <span class="font-serif-display text-xl lg:text-[1.75rem] font-semibold block text-slate-900">Sanrakshan <span class="text-emerald-600">2026</span></span>
+                    <span class="font-label text-[10px] lg:text-[11px] uppercase tracking-[0.2em] text-slate-500 block mt-1">IIM Lucknow · Noida</span>
                 </span>
             </a>
 
@@ -170,8 +197,9 @@
     <!-- HERO -->
     <section id="home" class="relative bg-slate-950 overflow-hidden">
         <div class="hero-grid grid grid-cols-1 lg:grid-cols-12">
-            <div class="relative lg:col-span-5 px-6 py-14 sm:px-10 md:p-14 lg:p-16 hero-col flex flex-col justify-center gap-7 text-white tech-grid-dark z-10 2xl:pl-[max(4rem,calc((100vw-1280px)/2))]">
+            <div class="relative lg:col-span-5 px-6 py-14 sm:px-10 md:p-14 lg:p-16 hero-col flex flex-col justify-center gap-7 text-white tech-grid-dark z-10 2xl:px-[clamp(4rem,7vw,9rem)]">
                 <div class="absolute inset-0 glow-emerald pointer-events-none"></div>
+                <span aria-hidden="true" class="hero-watermark hidden lg:block pointer-events-none select-none absolute right-6 top-4 font-serif-display font-semibold leading-none">2026</span>
                 <div class="relative reveal inline-flex items-center gap-2 self-start rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-1.5 text-[11px] uppercase tracking-[0.2em] text-emerald-300 font-label">
                     Theme 2026
                 </div>
@@ -207,23 +235,50 @@
         </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="bg-white py-20 lg:py-28">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            <div class="lg:col-span-4 reveal">
-                <span class="eyebrow font-label text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">01 — About</span>
-                <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">The people<br>behind the conclave</h2>
-                <p class="text-slate-500 mt-5 leading-relaxed">Sanrakshan is organised by the PGP in Sustainable Management students with the Centre of Business Sustainability at IIM Lucknow.</p>
+    <!-- ABOUT: text + layered photo collage -->
+    <section id="about" class="bg-white py-20 lg:py-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16 items-center">
+                <div class="lg:col-span-5 reveal">
+                    <span class="eyebrow font-label text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">01 — About</span>
+                    <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">The people behind <span class="italic text-emerald-700">the conclave</span></h2>
+                    <p class="text-slate-600 text-lg mt-5 leading-relaxed">Sanrakshan is IIM Lucknow's annual business sustainability conclave, organised by the students of the PGP in Sustainable Management together with the Centre of Business Sustainability.</p>
+                    <div class="mt-8 grid grid-cols-3 gap-3 max-w-md">
+                        <div class="rounded-xl bg-emerald-50 border border-emerald-100 px-3 py-4 text-center"><p class="font-serif-display text-2xl font-semibold text-emerald-800">1400+</p><p class="font-label text-[9px] uppercase tracking-widest text-emerald-700/80 mt-1">Footfall '25</p></div>
+                        <div class="rounded-xl bg-cyan-50 border border-cyan-100 px-3 py-4 text-center"><p class="font-serif-display text-2xl font-semibold text-cyan-800">50+</p><p class="font-label text-[9px] uppercase tracking-widest text-cyan-700/80 mt-1">B-schools</p></div>
+                        <div class="rounded-xl bg-stone-100 border border-stone-200 px-3 py-4 text-center"><p class="font-serif-display text-2xl font-semibold text-slate-800">40+</p><p class="font-label text-[9px] uppercase tracking-widest text-slate-500 mt-1">Leaders</p></div>
+                    </div>
+                </div>
+
+                <!-- Collage -->
+                <div class="lg:col-span-7 relative h-[340px] sm:h-[460px] lg:h-[520px] reveal reveal-d1" aria-label="Photos from Sanrakshan 2025">
+                    <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-emerald-100 via-white to-cyan-100 rotate-2"></div>
+                    <figure class="absolute left-[6%] right-0 top-0 h-[74%] rounded-3xl overflow-hidden shadow-2xl" data-parallax="-0.04">
+                        <img src="images/panel3.webp" alt="Sanrakshan 2025 main stage" class="w-full h-full object-cover" loading="lazy" width="798" height="568">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
+                    </figure>
+                    <figure class="absolute left-0 bottom-0 w-[44%] h-[46%] rounded-2xl overflow-hidden border-[6px] border-white shadow-2xl -rotate-3" data-parallax="0.06">
+                        <img src="images/podium.webp" alt="Speaker at the podium" class="w-full h-full object-cover object-top" loading="lazy" width="482" height="678">
+                    </figure>
+                    <figure class="absolute right-[4%] bottom-[2%] w-[38%] h-[40%] rounded-2xl overflow-hidden border-[6px] border-white shadow-2xl rotate-2" data-parallax="0.1">
+                        <img src="images/registration2.webp" alt="Delegates at registration" class="w-full h-full object-cover" loading="lazy" width="478" height="670">
+                    </figure>
+                    <div class="absolute left-[10%] top-5 sm:top-6 flex items-center gap-2 rounded-full bg-white/85 backdrop-blur px-4 py-2 shadow-lg" data-parallax="-0.08">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                        <span class="font-label text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-slate-700">Sanrakshan 2025 · Noida</span>
+                    </div>
+                </div>
             </div>
-            <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <article class="reveal reveal-d1 group rounded-2xl border border-slate-200 bg-stone-50 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 lg:mt-20">
+                <article class="spotlight reveal reveal-d1 rounded-2xl border border-slate-200 bg-stone-50 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition duration-300">
                     <div class="h-11 w-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-6">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5"/></svg>
                     </div>
                     <h3 class="font-serif-display text-2xl font-semibold">PGP Sustainable Management</h3>
                     <p class="text-slate-600 leading-relaxed mt-3">The Post Graduate Program in Sustainable Management (PGPSM) is a two-year, full-time residential programme run by IIM Lucknow at its Noida campus. It develops managers with an integrated understanding of systems thinking, stakeholder management, lifecycle analysis, public externalities and social entrepreneurship.</p>
                 </article>
-                <article class="reveal reveal-d2 group rounded-2xl border border-slate-200 bg-stone-50 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <article class="spotlight reveal reveal-d2 rounded-2xl border border-slate-200 bg-stone-50 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition duration-300">
                     <div class="h-11 w-11 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center mb-6">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></svg>
                     </div>
@@ -234,41 +289,66 @@
         </div>
     </section>
 
-    <!-- 2026 VISION -->
-    <section id="paradigm" class="bg-stone-100 py-20 lg:py-28">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="max-w-3xl reveal">
-                <span class="eyebrow font-label text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-700">02 — 2026 Vision</span>
-                <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">What's new this year</h2>
-                <p class="text-slate-600 text-lg mt-4">Our focus for 2026: building resilient businesses through sustainability and AI.</p>
+    <!-- 2026 VISION: image cards over a soft moving glow -->
+    <section id="paradigm" class="relative bg-stone-100 py-20 lg:py-28 overflow-hidden">
+        <div aria-hidden="true" class="blob absolute -top-32 -left-24 h-[28rem] w-[28rem] rounded-full bg-emerald-300/30 blur-3xl"></div>
+        <div aria-hidden="true" class="blob blob-2 absolute -bottom-40 -right-24 h-[32rem] w-[32rem] rounded-full bg-cyan-300/30 blur-3xl"></div>
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 reveal">
+                <div class="max-w-2xl">
+                    <span class="eyebrow font-label text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-700">02 — 2026 Vision</span>
+                    <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">What's new <span class="italic text-cyan-700">this year</span></h2>
+                </div>
+                <p class="text-slate-600 text-lg max-w-md">Our focus for 2026: building resilient businesses through sustainability and AI.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                <article class="reveal reveal-d1 rounded-2xl bg-white p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <span class="font-serif-display text-5xl text-emerald-600/80 italic">i.</span>
-                    <h3 class="text-lg font-bold mt-4">AI for Emissions Tracking</h3>
-                    <p class="text-slate-600 leading-relaxed mt-2">Hackathon-style challenges where teams use machine learning to track industrial emissions and supply-chain data in real time.</p>
+                <article class="spotlight group reveal reveal-d1 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition duration-500 overflow-hidden">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="images/case1.webp" alt="Team presenting data analysis" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" loading="lazy" width="794" height="562">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/0 to-transparent"></div>
+                        <span class="absolute left-5 bottom-4 font-serif-display text-4xl italic text-white drop-shadow">i.</span>
+                        <span class="absolute right-4 top-4 font-label text-[10px] font-bold uppercase tracking-widest bg-emerald-500 text-slate-950 px-2.5 py-1 rounded-full">AI</span>
+                    </div>
+                    <div class="p-7">
+                        <h3 class="text-lg font-bold">AI for Emissions Tracking</h3>
+                        <p class="text-slate-600 leading-relaxed mt-2">Hackathon-style challenges where teams use machine learning to track industrial emissions and supply-chain data in real time.</p>
+                    </div>
                 </article>
-                <article class="reveal reveal-d2 rounded-2xl bg-white p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <span class="font-serif-display text-5xl text-cyan-600/80 italic">ii.</span>
-                    <h3 class="text-lg font-bold mt-4">A Bigger Startup Exhibition</h3>
-                    <p class="text-slate-600 leading-relaxed mt-2">More space for startups to exhibit and pitch live to clean-energy investors and venture networks.</p>
+                <article class="spotlight group reveal reveal-d2 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition duration-500 overflow-hidden">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="images/registration1.webp" alt="Startup exhibition stall" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" loading="lazy" width="514" height="722">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/0 to-transparent"></div>
+                        <span class="absolute left-5 bottom-4 font-serif-display text-4xl italic text-white drop-shadow">ii.</span>
+                        <span class="absolute right-4 top-4 font-label text-[10px] font-bold uppercase tracking-widest bg-cyan-400 text-slate-950 px-2.5 py-1 rounded-full">Startups</span>
+                    </div>
+                    <div class="p-7">
+                        <h3 class="text-lg font-bold">A Bigger Startup Exhibition</h3>
+                        <p class="text-slate-600 leading-relaxed mt-2">More space for startups to exhibit and pitch live to clean-energy investors and venture networks.</p>
+                    </div>
                 </article>
-                <article class="reveal reveal-d3 rounded-2xl bg-white p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                    <span class="font-serif-display text-5xl text-slate-500 italic">iii.</span>
-                    <h3 class="text-lg font-bold mt-4">A Talent Showcase for Recruiters</h3>
-                    <p class="text-slate-600 leading-relaxed mt-2">Finalists' profiles shared with partner companies looking for sustainability-focused managers.</p>
+                <article class="spotlight group reveal reveal-d3 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition duration-500 overflow-hidden">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="images/judge.webp" alt="Jury panel evaluating finalists" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" loading="lazy" width="892" height="494">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/0 to-transparent"></div>
+                        <span class="absolute left-5 bottom-4 font-serif-display text-4xl italic text-white drop-shadow">iii.</span>
+                        <span class="absolute right-4 top-4 font-label text-[10px] font-bold uppercase tracking-widest bg-white text-slate-900 px-2.5 py-1 rounded-full">Talent</span>
+                    </div>
+                    <div class="p-7">
+                        <h3 class="text-lg font-bold">A Talent Showcase for Recruiters</h3>
+                        <p class="text-slate-600 leading-relaxed mt-2">Finalists' profiles shared with partner companies looking for sustainability-focused managers.</p>
+                    </div>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- SCHEDULE (4 executive panels) -->
+    <!-- SCHEDULE: timeline + photo that changes with the day -->
     <section id="schedule" class="bg-white py-20 lg:py-28">
-        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 reveal">
                 <div>
                     <span class="eyebrow font-label text-[11px] font-bold uppercase tracking-[0.2em] text-teal-700">03 — Schedule</span>
-                    <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">Two days, four panels</h2>
+                    <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">Two days, <span class="italic text-teal-700">four panels</span></h2>
                     <p class="text-slate-500 mt-3">Tentative schedule. Speakers will be announced soon.</p>
                 </div>
                 <div class="inline-flex w-full md:w-auto rounded-full bg-stone-100 p-1.5 border border-slate-200" role="tablist">
@@ -277,67 +357,118 @@
                 </div>
             </div>
 
-            <!-- DAY 1 -->
-            <ol id="panel-2026-day1" class="day-panel relative mt-12 border-l-2 border-emerald-100 ml-3 space-y-6">
-                <li class="relative pl-8 sm:pl-10">
-                    <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-white border-2 border-emerald-500"></span>
-                    <p class="font-label text-xs font-bold text-emerald-700 tracking-wider">10:30 AM · OPENING</p>
-                    <h3 class="text-lg font-bold mt-1">Lamp Lighting Ceremony &amp; Keynote Address</h3>
-                </li>
-                <li class="relative pl-8 sm:pl-10">
-                    <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-emerald-100"></span>
-                    <div class="rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <p class="font-label text-xs font-bold text-emerald-700 tracking-wider">11:30 AM</p>
-                            <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">Executive Panel 01</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mt-12">
+                <!-- Photo panel (switches with the day) -->
+                <div class="lg:col-span-5 lg:order-2">
+                    <div class="lg:sticky lg:top-32 reveal">
+                        <div class="relative h-60 sm:h-80 lg:h-[440px] rounded-3xl overflow-hidden shadow-2xl">
+                            <img id="sched-img-1" src="images/panel1.webp" alt="Panel discussion at Sanrakshan 2025" class="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-100 scale-100" loading="lazy" width="894" height="552">
+                            <img id="sched-img-2" src="images/panel2.webp" alt="Panel discussion on the main stage" class="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 scale-105" loading="lazy" width="942" height="668">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent"></div>
+                            <div class="absolute left-6 right-6 bottom-6 text-white">
+                                <p class="font-label text-[10px] uppercase tracking-[0.2em] text-emerald-300">From Sanrakshan 2025</p>
+                                <p id="sched-caption" class="font-serif-display text-xl sm:text-2xl font-semibold mt-1">Day 01 — Technology &amp; Industry</p>
+                            </div>
                         </div>
-                        <h3 class="font-serif-display text-2xl font-semibold mt-3">AI &amp; Computational Systems in Green Strategy</h3>
-                        <p class="text-slate-600 mt-2 leading-relaxed">How AI is being used for emissions tracking and green architecture — with tech founders and CTOs.</p>
                     </div>
-                </li>
-                <li class="relative pl-8 sm:pl-10">
-                    <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-emerald-100"></span>
-                    <div class="rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <p class="font-label text-xs font-bold text-emerald-700 tracking-wider">02:30 PM</p>
-                            <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">Executive Panel 02</span>
-                        </div>
-                        <h3 class="font-serif-display text-2xl font-semibold mt-3">Circular Economy &amp; Industrial Decarbonization</h3>
-                        <p class="text-slate-600 mt-2 leading-relaxed">Leaders from heavy industry, logistics and manufacturing on zero-waste supply chains and low-emission operations.</p>
-                    </div>
-                </li>
-            </ol>
+                </div>
 
-            <!-- DAY 2 -->
-            <ol id="panel-2026-day2" class="day-panel hidden relative mt-12 border-l-2 border-teal-100 ml-3 space-y-6">
-                <li class="relative pl-8 sm:pl-10">
-                    <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-white border-2 border-teal-500"></span>
-                    <p class="font-label text-xs font-bold text-teal-700 tracking-wider">10:30 AM · PLENARY</p>
-                    <h3 class="text-lg font-bold mt-1">Keynote Address &amp; Morning Session</h3>
-                </li>
-                <li class="relative pl-8 sm:pl-10">
-                    <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-teal-500 ring-4 ring-teal-100"></span>
-                    <div class="rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <p class="font-label text-xs font-bold text-teal-700 tracking-wider">11:00 AM</p>
-                            <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full">Executive Panel 03</span>
-                        </div>
-                        <h3 class="font-serif-display text-2xl font-semibold mt-3">Sustainable Finance &amp; Climate Risk Capital</h3>
-                        <p class="text-slate-600 mt-2 leading-relaxed">Carbon credits, green bonds, ESG valuation and impact investing — with venture capitalists and banking leaders.</p>
-                    </div>
-                </li>
-                <li class="relative pl-8 sm:pl-10">
-                    <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-teal-500 ring-4 ring-teal-100"></span>
-                    <div class="rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <p class="font-label text-xs font-bold text-teal-700 tracking-wider">02:00 PM</p>
-                            <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full">Executive Panel 04</span>
-                        </div>
-                        <h3 class="font-serif-display text-2xl font-semibold mt-3">Conscious Consumerism &amp; ESG Leadership</h3>
-                        <p class="text-slate-600 mt-2 leading-relaxed">Changing consumer behaviour, eco-labelling, circular product lifecycles and sustainable brand management.</p>
-                    </div>
-                </li>
-            </ol>
+                <div class="lg:col-span-7 lg:order-1">
+                    <!-- DAY 1 -->
+                    <ol id="panel-2026-day1" class="day-panel relative border-l-2 border-emerald-100 ml-3 space-y-6">
+                        <li class="relative pl-8 sm:pl-10">
+                            <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-white border-2 border-emerald-500"></span>
+                            <p class="font-label text-xs font-bold text-emerald-700 tracking-wider">10:30 AM · OPENING</p>
+                            <h3 class="text-lg font-bold mt-1">Lamp Lighting Ceremony &amp; Keynote Address</h3>
+                        </li>
+                        <li class="relative pl-8 sm:pl-10">
+                            <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-emerald-100"></span>
+                            <div class="spotlight rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <p class="font-label text-xs font-bold text-emerald-700 tracking-wider">11:30 AM</p>
+                                    <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">Executive Panel 01</span>
+                                </div>
+                                <h3 class="font-serif-display text-2xl font-semibold mt-3">AI &amp; Computational Systems in Green Strategy</h3>
+                                <p class="text-slate-600 mt-2 leading-relaxed">How AI is being used for emissions tracking and green architecture — with tech founders and CTOs.</p>
+                            </div>
+                        </li>
+                        <li class="relative pl-8 sm:pl-10">
+                            <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-emerald-100"></span>
+                            <div class="spotlight rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <p class="font-label text-xs font-bold text-emerald-700 tracking-wider">02:30 PM</p>
+                                    <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">Executive Panel 02</span>
+                                </div>
+                                <h3 class="font-serif-display text-2xl font-semibold mt-3">Circular Economy &amp; Industrial Decarbonization</h3>
+                                <p class="text-slate-600 mt-2 leading-relaxed">Leaders from heavy industry, logistics and manufacturing on zero-waste supply chains and low-emission operations.</p>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <!-- DAY 2 -->
+                    <ol id="panel-2026-day2" class="day-panel hidden relative border-l-2 border-teal-100 ml-3 space-y-6">
+                        <li class="relative pl-8 sm:pl-10">
+                            <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-white border-2 border-teal-500"></span>
+                            <p class="font-label text-xs font-bold text-teal-700 tracking-wider">10:30 AM · PLENARY</p>
+                            <h3 class="text-lg font-bold mt-1">Keynote Address &amp; Morning Session</h3>
+                        </li>
+                        <li class="relative pl-8 sm:pl-10">
+                            <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-teal-500 ring-4 ring-teal-100"></span>
+                            <div class="spotlight rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <p class="font-label text-xs font-bold text-teal-700 tracking-wider">11:00 AM</p>
+                                    <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full">Executive Panel 03</span>
+                                </div>
+                                <h3 class="font-serif-display text-2xl font-semibold mt-3">Sustainable Finance &amp; Climate Risk Capital</h3>
+                                <p class="text-slate-600 mt-2 leading-relaxed">Carbon credits, green bonds, ESG valuation and impact investing — with venture capitalists and banking leaders.</p>
+                            </div>
+                        </li>
+                        <li class="relative pl-8 sm:pl-10">
+                            <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-teal-500 ring-4 ring-teal-100"></span>
+                            <div class="spotlight rounded-2xl border border-slate-200 bg-stone-50 p-6 hover:bg-white hover:shadow-lg transition duration-300">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <p class="font-label text-xs font-bold text-teal-700 tracking-wider">02:00 PM</p>
+                                    <span class="font-label text-[10px] font-bold uppercase tracking-wider bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full">Executive Panel 04</span>
+                                </div>
+                                <h3 class="font-serif-display text-2xl font-semibold mt-3">Conscious Consumerism &amp; ESG Leadership</h3>
+                                <p class="text-slate-600 mt-2 leading-relaxed">Changing consumer behaviour, eco-labelling, circular product lifecycles and sustainable brand management.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MOMENTS: endless photo strip -->
+    <section class="bg-white pb-16 lg:pb-20 overflow-hidden" aria-label="Moments from Sanrakshan 2025">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center gap-4 mb-6">
+            <span class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap">Moments from Sanrakshan 2025</span>
+            <span class="h-px flex-1 bg-slate-200"></span>
+        </div>
+        <div class="marquee-mask">
+            <div class="marquee-track flex gap-4 w-max">
+                <!-- set 1 -->
+                <img src="images/panel3.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/cultural1.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/case2.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/panel4.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/registration1.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/cultural2.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/judge.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/panel2.webp" alt="" class="marquee-img" loading="lazy">
+                <img src="images/podium.webp" alt="" class="marquee-img" loading="lazy">
+                <!-- set 2 (duplicate for a seamless loop) -->
+                <img src="images/panel3.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/cultural1.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/case2.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/panel4.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/registration1.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/cultural2.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/judge.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/panel2.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+                <img src="images/podium.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+            </div>
         </div>
     </section>
 
@@ -599,6 +730,12 @@
             b2.classList.toggle('active', !first);
             b1.setAttribute('aria-selected', first);
             b2.setAttribute('aria-selected', !first);
+            const i1 = document.getElementById('sched-img-1'), i2 = document.getElementById('sched-img-2');
+            i1.classList.toggle('opacity-0', !first); i1.classList.toggle('opacity-100', first);
+            i1.classList.toggle('scale-105', !first); i1.classList.toggle('scale-100', first);
+            i2.classList.toggle('opacity-0', first); i2.classList.toggle('opacity-100', !first);
+            i2.classList.toggle('scale-105', first); i2.classList.toggle('scale-100', !first);
+            document.getElementById('sched-caption').textContent = first ? 'Day 01 — Technology & Industry' : 'Day 02 — Finance & Consumers';
         }
 
         // ---- Mobile menu ----
@@ -668,6 +805,34 @@
                 });
                 dots.forEach((d, k) => d.classList.toggle('active', k === best));
             }, { passive: true });
+        })();
+        // ---- Spotlight: track mouse position on cards ----
+        document.querySelectorAll('.spotlight').forEach(el => {
+            el.addEventListener('pointermove', e => {
+                const r = el.getBoundingClientRect();
+                el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            });
+        });
+
+        // ---- Gentle parallax on the About collage (desktop only) ----
+        (function () {
+            const items = [...document.querySelectorAll('[data-parallax]')];
+            if (!items.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            let ticking = false;
+            function update() {
+                ticking = false;
+                const on = innerWidth >= 1024;
+                items.forEach(el => {
+                    if (!on) { el.style.translate = ''; return; }
+                    const r = el.parentElement.getBoundingClientRect();
+                    const off = (r.top + r.height / 2 - innerHeight / 2) * +el.dataset.parallax;
+                    el.style.translate = '0 ' + off.toFixed(1) + 'px';
+                });
+            }
+            addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+            addEventListener('resize', update);
+            update();
         })();
     </script>
 </body>
