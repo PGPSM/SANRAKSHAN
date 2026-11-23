@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanrakshan 2026 | IIM Lucknow Conclave</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tech-grid { background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px); background-size: 30px 30px; }
+        .tech-grid-dark { background-image: linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px); background-size: 30px 30px; }
+
+        /* FANNED CARD DECK (LANDO NORRIS STYLE) */
+        .fanned-card {
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-origin: bottom center;
+        }
+
+        /* Default arc placement for 5 items on desktop */
+        @media (min-width: 1024px) {
+            .fanned-card:nth-child(1) { transform: rotate(-12deg) translateY(24px); z-index: 10; }
+            .fanned-card:nth-child(2) { transform: rotate(-6deg) translateY(8px); z-index: 20; }
+            .fanned-card:nth-child(3) { transform: rotate(0deg) translateY(0px); z-index: 30; }
+            .fanned-card:nth-child(4) { transform: rotate(6deg) translateY(8px); z-index: 20; }
+            .fanned-card:nth-child(5) { transform: rotate(12deg) translateY(24px); z-index: 10; }
+
+            /* On hover: Card pops out, zooms in, and straightens */
+            .fanned-card:hover {
+                transform: rotate(0deg) translateY(-40px) scale(1.15) !important;
+                z-index: 50 !important;
+                opacity: 1 !important;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            }
+
+            /* Dim non-hovered cards in the container */
+            .fanned-container:hover .fanned-card:not(:hover) {
+                opacity: 0.5;
+                filter: grayscale(20%);
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased selection:bg-emerald-600 selection:text-white">
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="bg-slate-950 text-slate-300 text-center py-3.5 px-4 text-sm font-mono tracking-widest border-b border-slate-800">
+        CONSOLE ACTIVE — Registration Infrastructure Operational for National B-Schools
+    </div>
+
+    <!-- MAIN DASHBOARD NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-white border-b-2 border-slate-900 backdrop-blur-md bg-white/95 shadow-sm">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 h-28 md:h-32 flex items-center justify-between">
+            <div class="flex items-center space-x-10">
+                <a href="#home" class="flex items-center space-x-6 cursor-pointer text-left">
+                    <img src="images/logo-iiml.png" alt="IIM Lucknow Logo" class="h-20 md:h-28 w-auto object-contain" onerror="this.src='images/logo-iiml.jpg'">
+                    <div class="h-16 w-[2px] bg-slate-300"></div>
+                    <img src="images/logo-event.png" alt="Sanrakshan Logo" class="h-20 md:h-28 w-auto object-contain" onerror="this.src='images/logo-event.jpg'">
+                    <div class="hidden sm:block text-left pl-2">
+                        <span class="text-2xl font-black tracking-tighter block text-slate-900 leading-none">SANRAKSHAN</span>
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 block mt-1">Noida Campus Hub</span>
+                    </div>
+                </a>
+                <div class="hidden xl:flex items-center space-x-8 text-sm uppercase tracking-widest font-black h-full pt-1">
+                    <a href="#home" class="flex items-center h-full border-b-4 border-transparent hover:border-emerald-600 text-slate-700 hover:text-emerald-600 transition">Home</a>
+                    <a href="#about" class="flex items-center h-full border-b-4 border-transparent hover:border-emerald-600 text-slate-700 hover:text-emerald-600 transition">The Core</a>
+                    <a href="#paradigm" class="flex items-center h-full border-b-4 border-transparent hover:border-emerald-600 text-slate-700 hover:text-emerald-600 transition">2026 Vision</a>
+                    <a href="#schedule" class="flex items-center h-full border-b-4 border-transparent hover:border-emerald-600 text-slate-700 hover:text-emerald-600 transition">Itinerary</a>
+                    <a href="#events" class="flex items-center h-full border-b-4 border-transparent hover:border-emerald-600 text-slate-700 hover:text-emerald-600 transition">Competitions</a>
+                    <a href="#archive" class="flex items-center h-full border-b-4 border-transparent hover:border-emerald-600 text-slate-700 hover:text-emerald-600 transition">Historical Vault</a>
+                </div>
+            </div>
+            <div>
+                <a href="#register" class="bg-slate-900 text-white text-sm uppercase tracking-widest font-bold px-8 py-5 hover:bg-emerald-600 transition border-b-2 border-black block">Application Console &rarr;</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 0: HOME LANDING -->
+    <section id="home" class="relative bg-white border-b-2 border-slate-900 overflow-hidden">
+        <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-160px)]">
+            <div class="lg:col-span-5 p-8 md:p-14 lg:p-16 flex flex-col justify-center space-y-8 bg-slate-950 text-white tech-grid-dark z-10">
+                <div class="inline-flex items-center border border-emerald-500/30 bg-emerald-950/40 px-4 py-1.5 text-xs uppercase tracking-widest text-emerald-400 font-mono font-bold self-start">
+                    Current Frame — Strategic Green Operations Blueprint
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-tight">
+                    BUILDING RESILIENT<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">BUSINESSES</span>
+                </h1>
+                <p class="text-base md:text-lg text-slate-300 font-light tracking-tight leading-relaxed">
+                    Welcome to the 2026 chapter of IIM Lucknow's Annual Business Sustainability Conclave. We integrate modern ecological strategy tracks with scalable computational Artificial Intelligence networks.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                    <a href="#register" class="bg-emerald-600 text-white text-center text-sm uppercase tracking-widest font-bold px-8 py-4.5 hover:bg-emerald-700 transition w-full">Access Registry Hub</a>
+                    <a href="#schedule" class="border border-slate-700 bg-slate-900/40 text-white text-center text-sm uppercase tracking-widest font-bold px-8 py-4.5 hover:bg-slate-800 transition w-full">Review Itinerary Data</a>
+                </div>
+            </div>
+
+            <!-- Full-Color Slideshow Frame -->
+            <div class="lg:col-span-7 relative min-h-[450px] bg-white overflow-hidden flex items-center justify-center border-t-2 lg:border-t-0 lg:border-l-2 border-slate-900">
+                <img id="slide-campus" src="images/campus.png" alt="IIM Lucknow Campus" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100" onerror="if(this.src.includes('.png')){this.src=this.src.replace('.png','.PNG');}else if(this.src.includes('.PNG')){this.src=this.src.replace('.PNG','.jpg');}">
+                <img id="slide-newlogo" src="images/newlogo.svg" alt="Sanrakshan 2026 Banner" class="absolute inset-0 w-full h-full object-contain p-8 bg-white transition-opacity duration-1000 ease-in-out opacity-0" onerror="if(this.src.includes('.svg')){this.style.display='none';}">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: THE CORE -->
+    <section id="about" class="bg-white border-b-2 border-slate-900 py-20">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-gray-200">
+            <div class="lg:col-span-4 p-8 lg:p-12 bg-slate-50 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 font-mono">Structure 01 — Base Ground</span>
+                    <h2 class="text-4xl font-black tracking-tight uppercase leading-tight">Institutional<br>Architecture</h2>
+                </div>
+                <p class="text-xs text-slate-400 font-mono hidden lg:block mt-8">CBS — POST GRADUATE PROGRAM IN SUSTAINABLE MANAGEMENT</p>
+            </div>
+            <div class="lg:col-span-4 p-8 lg:p-12 space-y-6 bg-white flex flex-col justify-center">
+                <h3 class="text-2xl font-black uppercase tracking-tight border-b-2 border-emerald-500 pb-2">PGP Sustainable Management</h3>
+                <p class="text-slate-700 text-base font-light leading-relaxed">
+                    The Post Graduate Program in Sustainable Management (PGPSM) is a top-tier two-year full-time residential course conducted by IIM Lucknow at its Noida campus. The curriculum produces quality corporate managers with an integrated understanding of systems thinking, stakeholder management, lifecycle tracking, public externalities, and social entrepreneurship parameters.
+                </p>
+            </div>
+            <div class="lg:col-span-4 p-8 lg:p-12 space-y-6 bg-white flex flex-col justify-center">
+                <h3 class="text-2xl font-black uppercase tracking-tight border-b-2 border-cyan-500 pb-2">The CBS Excellence Hub</h3>
+                <p class="text-slate-700 text-base font-light leading-relaxed">
+                    The Centre of Business Sustainability (CBS) serves as a collaborative multidisciplinary body of industry specialists and experts. CBS focuses on actionable dissemination and bringing together corporate best practices via specialized research, executive seminars, webinars, and active sustainability roundtables.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: 2026 VISION -->
+    <section id="paradigm" class="bg-slate-100 py-24 border-b-2 border-slate-900">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 space-y-12">
+            <div class="space-y-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyan-600 font-mono">Structure 02 — Current Map</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tighter uppercase">2026 Objectives & Forward Plans</h2>
+                <p class="text-slate-600 text-lg font-light">Target Blueprint Focus: Building Resilient Businesses through Sustainability and AI.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 border-2 border-slate-900 bg-white shadow-[8px_8px_0px_0px_#0f172a]">
+                <div class="p-10 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-4 hover:bg-emerald-50/20 transition">
+                    <div class="h-10 w-10 bg-emerald-100 text-emerald-700 flex items-center justify-center font-mono font-bold text-sm">A</div>
+                    <h3 class="text-xl font-bold uppercase tracking-tight">Algorithmic Eco-Tracking</h3>
+                    <p class="text-base text-slate-600 font-light leading-relaxed">Deploying specialized interactive hackathons evaluating machine learning optimization paths capable of processing live industrial emissions tracking and supply stream metrics.</p>
+                </div>
+                <div class="p-10 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-4 hover:bg-cyan-50/20 transition">
+                    <div class="h-10 w-10 bg-cyan-100 text-cyan-700 flex items-center justify-center font-mono font-bold text-sm">B</div>
+                    <h3 class="text-xl font-bold uppercase tracking-tight">Venture Capital Exhibit Lanes</h3>
+                    <p class="text-base text-slate-600 font-light leading-relaxed">Expanding the physical footprint of our startup exhibition spaces to support interactive live pitches with cross-border alternative energy investor networks.</p>
+                </div>
+                <div class="p-10 space-y-4 hover:bg-slate-50 transition">
+                    <div class="h-10 w-10 bg-slate-200 text-slate-700 flex items-center justify-center font-mono font-bold text-sm">C</div>
+                    <h3 class="text-xl font-bold uppercase tracking-tight">Strategic Talent Portfolio</h3>
+                    <p class="text-base text-slate-600 font-light leading-relaxed">Consolidating executive résumé dossiers from elite competitive national track finalists to supply key corporate partners with vetted sustainability management pipelines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ITINERARY -->
+    <section id="schedule" class="bg-white py-24 border-b-2 border-slate-900">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 space-y-12">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+                <div class="space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-teal-600 font-mono">Structure 03 — Timelines</span>
+                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter uppercase">2026 Interactive Schedule</h2>
+                    <p class="text-slate-600 text-base font-light">Tentative operational roadmap. Final executive speaker lineups will be verified upon consensus routing.</p>
+                </div>
+                <div class="flex border-2 border-slate-900 p-1 bg-white font-mono text-xs font-bold text-slate-700 self-start lg:self-auto">
+                    <button onclick="toggle2026Day('day1')" id="t-btn1" class="px-6 py-3 bg-emerald-600 text-white rounded-none transition cursor-pointer">CONCLAVE DAY 01</button>
+                    <button onclick="toggle2026Day('day2')" id="t-btn2" class="px-6 py-3 hover:text-slate-900 rounded-none transition cursor-pointer">CONCLAVE DAY 02</button>
+                </div>
+            </div>
+
+            <div id="panel-2026-day1" class="border-2 border-slate-900 bg-white divide-y-2 divide-slate-100 font-light text-base shadow-sm">
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-emerald-600">11:00 AM — Day Start</div>
+                    <div class="md:col-span-9 font-bold uppercase tracking-tight text-base">Lamp Lighting Ceremony & Welcome Introductions</div>
+                </div>
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-emerald-600">11:20 AM — Session 01</div>
+                    <div class="md:col-span-9">
+                        <h4 class="font-bold uppercase tracking-tight text-base">Opening Academic Address Framework</h4>
+                        <p class="text-slate-500 text-sm mt-1">Conclave structural introductions managed by the PGPSM Chairperson and CBS Advisory Board.</p>
+                    </div>
+                </div>
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-emerald-600">02:00 PM — Session 02</div>
+                    <div class="md:col-span-9">
+                        <h4 class="font-bold uppercase tracking-tight text-base">Tech Panel Plenary Corridor — Code Green</h4>
+                        <p class="text-slate-500 text-sm mt-1">Deliberating over computational AI deployment steps alongside green architecture tracks.</p>
+                    </div>
+                </div>
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-emerald-600">03:45 PM — Session 03</div>
+                    <div class="md:col-span-9">
+                        <h4 class="font-bold uppercase tracking-tight text-base">Manufacturing Panel Assembly — Net-Zero Future</h4>
+                        <p class="text-slate-500 text-sm mt-1">Heavy industry circular systems processing framework tracking low-emission tech grids.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-2026-day2" class="border-2 border-slate-900 bg-white divide-y-2 divide-slate-100 font-light text-base shadow-sm hidden">
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-teal-600">11:00 AM — Plenary Open</div>
+                    <div class="md:col-span-9 font-bold uppercase tracking-tight text-base">Plenary Executive Keynote Address Corridor</div>
+                </div>
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-teal-600">11:30 AM — Session 04</div>
+                    <div class="md:col-span-9">
+                        <h4 class="font-bold uppercase tracking-tight text-base">Finance Panel Assembly — Resilient Capital</h4>
+                        <p class="text-slate-500 text-sm mt-1">Evaluating carbon credits, green bonds pricing metrics, and climate risk finance instruments.</p>
+                    </div>
+                </div>
+                <div class="p-6 md:grid md:grid-cols-12 md:gap-8 items-center hover:bg-slate-50 transition">
+                    <div class="md:col-span-3 font-mono text-sm font-bold text-teal-600">02:00 PM — Session 05</div>
+                    <div class="md:col-span-9">
+                        <h4 class="font-bold uppercase tracking-tight text-base">Lifestyle Panel Column — The Mindful Horizon</h4>
+                        <p class="text-slate-500 text-sm mt-1">Analyzing conscious consumer behaviors, circular product metrics, and eco-fashion parameters.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: CONCLAVE EVENT MATRIX (LANDO NORRIS FANNED DECK EFFECT) -->
+    <section id="events" class="bg-slate-950 text-white py-28 border-b-2 border-slate-900 overflow-hidden tech-grid-dark">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 space-y-16 text-center">
+            
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Structure 04 — National Arenas</span>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tighter uppercase">Conclave Event Matrix</h2>
+                <p class="text-slate-400 text-base font-mono">[ Hover over any card in the deck to inspect and expand ]</p>
+            </div>
+
+            <!-- FANNED CARD CONTAINER DECK -->
+            <div class="fanned-container relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-0 py-12 px-4 max-w-7xl mx-auto">
+                
+                <!-- CARD 1: CASE COMPETITIONS -->
+                <div class="fanned-card w-full lg:w-80 h-[480px] bg-slate-900 border-2 border-emerald-500/50 p-6 flex flex-col justify-between lg:-mx-8 shadow-xl rounded-none text-left">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 bg-slate-800 border border-slate-700 overflow-hidden relative">
+                            <img src="images/case1.png" alt="Case Arena" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-mono font-bold px-2.5 py-1 uppercase">TRACK 01</span>
+                        </div>
+                        <h3 class="text-2xl font-black uppercase tracking-tight text-white">Case Competitions</h3>
+                        <p class="text-xs text-slate-300 font-light leading-relaxed">
+                            National sprint formats evaluating strategic problem-solving. Tracks include HaritVitt (Finance), Thrive (Sustainability Solutions), and ReWeave (Textiles).
+                        </p>
+                    </div>
+                    <a href="https://unstop.com" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold py-3.5 px-4 uppercase tracking-widest text-center block transition">
+                        APPLY ON UNSTOP &rarr;
+                    </a>
+                </div>
+
+                <!-- CARD 2: SHARK TANK SIMULATION -->
+                <div class="fanned-card w-full lg:w-80 h-[480px] bg-slate-900 border-2 border-cyan-500/50 p-6 flex flex-col justify-between lg:-mx-8 shadow-xl rounded-none text-left">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 bg-slate-800 border border-slate-700 overflow-hidden relative">
+                            <img src="images/judge.png" alt="Shark Tank" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-cyan-600 text-white text-[10px] font-mono font-bold px-2.5 py-1 uppercase">TRACK 02</span>
+                        </div>
+                        <h3 class="text-2xl font-black uppercase tracking-tight text-white">Shark Tank Arena</h3>
+                        <p class="text-xs text-slate-300 font-light leading-relaxed">
+                            Early-stage clean-tech venture tracks. Pitch working models directly to venture capitalists, angel networks, and institutional sustainability funds.
+                        </p>
+                    </div>
+                    <a href="https://unstop.com" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-mono font-bold py-3.5 px-4 uppercase tracking-widest text-center block transition">
+                        APPLY ON UNSTOP &rarr;
+                    </a>
+                </div>
+
+                <!-- CARD 3: BUSINESS QUIZ (CENTER) -->
+                <div class="fanned-card w-full lg:w-80 h-[480px] bg-slate-900 border-2 border-emerald-400 p-6 flex flex-col justify-between lg:-mx-8 shadow-xl rounded-none text-left">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 bg-slate-800 border border-slate-700 overflow-hidden relative">
+                            <img src="images/case2.png" alt="Business Quiz" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-emerald-500 text-white text-[10px] font-mono font-bold px-2.5 py-1 uppercase">TRACK 03</span>
+                        </div>
+                        <h3 class="text-2xl font-black uppercase tracking-tight text-white">Business Quiz</h3>
+                        <p class="text-xs text-slate-300 font-light leading-relaxed">
+                            A fast-paced competitive framework evaluating knowledge arrays across global environmental legislation, carbon markets, ESG policies, and micro-economics.
+                        </p>
+                    </div>
+                    <a href="https://unstop.com" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold py-3.5 px-4 uppercase tracking-widest text-center block transition">
+                        APPLY ON UNSTOP &rarr;
+                    </a>
+                </div>
+
+                <!-- CARD 4: STARTUP MELA BOOTH -->
+                <div class="fanned-card w-full lg:w-80 h-[480px] bg-slate-900 border-2 border-teal-500/50 p-6 flex flex-col justify-between lg:-mx-8 shadow-xl rounded-none text-left">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 bg-slate-800 border border-slate-700 overflow-hidden relative">
+                            <img src="images/registration1.png" alt="Startup Booth" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-teal-600 text-white text-[10px] font-mono font-bold px-2.5 py-1 uppercase">EXHIBIT</span>
+                        </div>
+                        <h3 class="text-2xl font-black uppercase tracking-tight text-white">Startup Mela</h3>
+                        <p class="text-xs text-slate-300 font-light leading-relaxed">
+                            Corporate pavilion spaces designed for sustainability startups to exhibit clean products, engage with delegates, and network with industry leaders.
+                        </p>
+                    </div>
+                    <a href="https://forms.google.com" target="_blank" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-mono font-bold py-3.5 px-4 uppercase tracking-widest text-center block transition">
+                        REGISTER BOOTH &rarr;
+                    </a>
+                </div>
+
+                <!-- CARD 5: CAMPUS AMBASSADOR -->
+                <div class="fanned-card w-full lg:w-80 h-[480px] bg-slate-900 border-2 border-emerald-500/50 p-6 flex flex-col justify-between lg:-mx-8 shadow-xl rounded-none text-left">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 bg-slate-800 border border-slate-700 overflow-hidden relative">
+                            <img src="images/cultural1.png" alt="Ambassador Track" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-mono font-bold px-2.5 py-1 uppercase">NETWORK</span>
+                        </div>
+                        <h3 class="text-2xl font-black uppercase tracking-tight text-white">Campus Lead</h3>
+                        <p class="text-xs text-slate-300 font-light leading-relaxed">
+                            Represent Sanrakshan 2026 across leading national Indian universities and business schools. Lead student outreach, marketing drives, and regional networks.
+                        </p>
+                    </div>
+                    <a href="https://unstop.com" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold py-3.5 px-4 uppercase tracking-widest text-center block transition">
+                        APPLY ON UNSTOP &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: HISTORICAL VAULT (2025) -->
+    <section id="archive" class="bg-slate-100 py-24 border-b-2 border-slate-900">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 space-y-12">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-300 pb-6 gap-4">
+                <div class="space-y-2">
+                    <span class="bg-slate-300 text-slate-800 text-xs font-mono font-bold px-3 py-1 uppercase tracking-widest">Historical Records Vault</span>
+                    <h2 class="text-3xl font-black uppercase tracking-tight text-slate-900">Sanrakshan 2025 Retrospective</h2>
+                    <p class="text-xs text-slate-500 font-mono">Archive Theme Focus — Viksit Bharat 2047: Catalyzing Growth through Sustainability and Responsibility</p>
+                </div>
+            </div>
+
+            <!-- 2025 Stats Grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-6 border border-slate-300 bg-white shadow-sm text-center font-mono">
+                <div class="p-6 border-r border-b lg:border-b-0 border-slate-200"><div class="text-3xl font-black text-slate-900">80k+</div><p class="text-xs uppercase tracking-wider text-slate-500 mt-1">Digital Impressions</p></div>
+                <div class="p-6 border-r border-b lg:border-b-0 border-slate-200"><div class="text-3xl font-black text-slate-900">10k+</div><p class="text-xs uppercase tracking-wider text-slate-500 mt-1">Unique Reach</p></div>
+                <div class="p-6 border-r border-b sm:border-b-0 border-slate-200"><div class="text-3xl font-black text-slate-900">1400+</div><p class="text-xs uppercase tracking-wider text-slate-500 mt-1">Total Footfall</p></div>
+                <div class="p-6 border-r border-b sm:border-b-0 border-slate-200"><div class="text-3xl font-black text-slate-900">50+</div><p class="text-xs uppercase tracking-wider text-slate-500 mt-1">B-Schools Present</p></div>
+                <div class="p-6 border-r border-slate-200"><div class="text-3xl font-black text-slate-900">40+</div><p class="text-xs uppercase tracking-wider text-slate-500 mt-1">Industry Leaders</p></div>
+                <div class="p-6"><div class="text-3xl font-black text-slate-900">10+</div><p class="text-xs uppercase tracking-wider text-slate-500 mt-1">Vetted Startups</p></div>
+            </div>
+
+            <!-- Speaker Records -->
+            <div class="space-y-4">
+                <h3 class="text-xs font-mono font-bold uppercase text-slate-400 tracking-widest">Verified Keynote Record Ledger</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 p-6 flex gap-6 items-center">
+                        <div class="h-20 w-20 bg-slate-200 border border-slate-300 flex-shrink-0 relative overflow-hidden">
+                            <img src="images/registration1.png" alt="Sanjiv Singh" class="absolute inset-0 w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base text-slate-900 uppercase">Shri Sanjiv Singh (IRS)</h4>
+                            <p class="text-xs text-slate-500 font-mono">Joint Secretary, DPIIT, Ministry of Commerce and Industry</p>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-6 flex gap-6 items-center">
+                        <div class="h-20 w-20 bg-slate-200 border border-slate-300 flex-shrink-0 relative overflow-hidden">
+                            <img src="images/panel1.png" alt="Acharya Prashant" class="absolute inset-0 w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base text-slate-900 uppercase">Acharya Prashant</h4>
+                            <p class="text-xs text-slate-500 font-mono">Vedanta Teacher & Environmental Advocate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sponsoring Ledger -->
+            <div class="space-y-4">
+                <h3 class="text-xs font-mono font-bold uppercase text-slate-400 tracking-widest">Historical Industry Associations</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 border-2 border-slate-300 font-mono text-xs font-bold text-slate-900 bg-white divide-x divide-y md:divide-y-0 divide-slate-200">
+                    <div class="p-6 flex flex-col justify-between items-center min-h-[140px] hover:bg-slate-50 transition"><span class="text-slate-400 font-light block mb-3 text-[10px]">— INNOVATION PARTNER</span><span class="block mt-2">HPCL UDGAM</span></div>
+                    <div class="p-6 flex flex-col justify-between items-center min-h-[140px] hover:bg-slate-50 transition"><span class="text-slate-400 font-light block mb-3 text-[10px]">— EVENT PARTNER</span><span class="block mt-2">HMEL</span></div>
+                    <div class="p-6 flex flex-col justify-between items-center min-h-[140px] hover:bg-slate-50 transition"><span class="text-slate-400 font-light block mb-3 text-[10px]">— MOBILITY PARTNER</span><span class="block mt-2">EVERA EV</span></div>
+                    <div class="p-6 flex flex-col justify-between items-center min-h-[140px] hover:bg-slate-50 transition"><span class="text-slate-400 font-light block mb-3 text-[10px]">— COMPETITION PARTNER</span><span class="block mt-2">GREENKO</span></div>
+                    <div class="p-6 flex flex-col justify-between items-center min-h-[140px] hover:bg-slate-50 transition"><span class="text-slate-400 font-light block mb-3 text-[10px]">— IMPACT FINANCE PARTNER</span><span class="block mt-2">LOK CAPITAL</span></div>
+                    <div class="p-6 flex flex-col justify-between items-center min-h-[140px] hover:bg-slate-50 transition"><span class="text-slate-400 font-light block mb-3 text-[10px]">— MEDIA PARTNER</span><span class="block mt-2">BUSINESS STANDARD</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: APPLICATION CONSOLE TERMINAL -->
+    <section id="register" class="bg-white tech-grid py-24 border-b-2 border-slate-900">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <div class="lg:col-span-5 space-y-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 font-mono">Structure 05 — Entry Hubs</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none">Registration Pass Terminal</h2>
+                <p class="text-slate-600 text-base leading-relaxed">Select your custom entry route below to secure passes. All systems redirect securely to active processing channels.</p>
+            </div>
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <a href="https://unstop.com" target="_blank" class="border-2 border-slate-900 p-8 hover:bg-slate-900 hover:text-white transition flex flex-col justify-between h-48 bg-white shadow-[6px_6px_0px_0px_#000]">
+                    <div>
+                        <div class="text-lg font-black uppercase tracking-wider">Case Competitions</div>
+                        <p class="text-xs text-slate-500 mt-1 font-mono">Academic Sprints Portal</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold tracking-widest uppercase">LAUNCH UNSTOP ENTRY &rarr;</span>
+                </a>
+                <a href="https://unstop.com" target="_blank" class="border-2 border-slate-900 p-8 hover:bg-slate-900 hover:text-white transition flex flex-col justify-between h-48 bg-white shadow-[6px_6px_0px_0px_#000]">
+                    <div>
+                        <div class="text-lg font-black uppercase tracking-wider">Shark Tank Arena</div>
+                        <p class="text-xs text-slate-500 mt-1 font-mono">Incubation Pitch Corridor</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold tracking-widest uppercase">LAUNCH UNSTOP ENTRY &rarr;</span>
+                </a>
+                <a href="https://forms.google.com" target="_blank" class="border-2 border-slate-900 p-8 hover:bg-slate-900 hover:text-white transition flex flex-col justify-between h-48 bg-white shadow-[6px_6px_0px_0px_#000]">
+                    <div>
+                        <div class="text-lg font-black uppercase tracking-wider">Startup Mela Booth</div>
+                        <p class="text-xs text-slate-500 mt-1 font-mono">Corporate Pavilion Form</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold tracking-widest uppercase">LAUNCH SECURE FORM &rarr;</span>
+                </a>
+                <a href="https://unstop.com" target="_blank" class="border-2 border-slate-900 p-8 hover:bg-slate-900 hover:text-white transition flex flex-col justify-between h-48 bg-white shadow-[6px_6px_0px_0px_#000]">
+                    <div>
+                        <div class="text-lg font-black uppercase tracking-wider">Campus Ambassador</div>
+                        <p class="text-xs text-slate-500 mt-1 font-mono">Regional Strategic Network</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold tracking-widest uppercase">LAUNCH UNSTOP ENTRY &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP SECTION: CAMPUS LOCATION -->
+    <section class="bg-slate-900 text-white py-16">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 space-y-6">
+                <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Campus Coordinates</span>
+                <h3 class="text-3xl md:text-4xl font-black uppercase tracking-tight">IIM Lucknow Noida Campus</h3>
+                <div class="space-y-3 text-slate-300 font-mono text-sm leading-relaxed">
+                    <p class="flex items-start gap-3">
+                        <span class="text-emerald-400 font-bold">ADDRESS:</span>
+                        <span>B-1, Sector 62, Institutional Area, Noida, Uttar Pradesh 201307</span>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span class="text-emerald-400 font-bold">METRO:</span>
+                        <span>Noida Electronic City (Blue Line)</span>
+                    </p>
+                </div>
+            </div>
+            <div class="lg:col-span-7 h-80 border-2 border-slate-700 overflow-hidden relative shadow-lg">
+                <iframe 
+                    title="IIM Lucknow Noida Campus Map"
+                    src="https://maps.google.com/maps?q=IIM%20Lucknow%20Noida%20Campus%20B-1%20Sector%2062%20Noida&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                    class="w-full h-full border-0 grayscale hover:grayscale-0 transition duration-500" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER WITH SOCIAL MEDIA LINKS -->
+    <footer class="bg-slate-950 text-white pt-16 pb-12 font-light text-base border-t border-slate-900">
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-slate-800">
+            <div class="md:col-span-4 space-y-4">
+                <h4 class="text-lg font-black uppercase tracking-widest text-white">SANRAKSHAN 2026</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    IIM Lucknow Noida Campus. The central national matrix evaluating sustainable business scalability models via algorithmic coordination layers and green engineering modules.
+                </p>
+                
+                <!-- SOCIAL MEDIA PLACEHOLDERS -->
+                <div class="pt-4 flex items-center space-x-6">
+                    <a href="#" target="_blank" title="LinkedIn" class="p-2.5 bg-slate-900 border border-slate-700 hover:bg-emerald-600 hover:border-emerald-600 transition text-slate-300 hover:text-white">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" title="Instagram" class="p-2.5 bg-slate-900 border border-slate-700 hover:bg-emerald-600 hover:border-emerald-600 transition text-slate-300 hover:text-white">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" title="YouTube" class="p-2.5 bg-slate-900 border border-slate-700 hover:bg-emerald-600 hover:border-emerald-600 transition text-slate-300 hover:text-white">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="md:col-span-4 space-y-4">
+                <h4 class="text-lg font-bold uppercase tracking-widest text-white">Central Hub</h4>
+                <div class="space-y-2 text-slate-300 font-mono text-sm">
+                    <p>Inbound Registry: <a href="mailto:sanrakshan@iiml.ac.in" class="text-emerald-400 hover:underline">sanrakshan@iiml.ac.in</a></p>
+                    <p>Dossier Link: <a href="http://iiml-sanraksan.com" target="_blank" class="text-emerald-400 hover:underline">iiml-sanraksan.com</a></p>
+                </div>
+            </div>
+            <div class="md:col-span-4 space-y-4">
+                <h4 class="text-lg font-bold uppercase tracking-widest text-white">Conclave Secretariats</h4>
+                <div class="space-y-2 font-mono text-sm text-slate-300">
+                    <p>Ayush Thakur: <span class="text-white">+91 78070 70109</span></p>
+                    <p>Sargun: <span class="text-white">+91 88009 42176</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-[1600px] mx-auto px-6 lg:px-12 mt-8 text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono">
+            <p>&copy; 2026 Indian Institute of Management Lucknow. All Rights Reserved.</p>
+            <p class="tracking-widest uppercase">BUILDING RESILIENT BUSINESSES THROUGH SUSTAINABILITY AND AI</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // Hero Background Slideshow Controller (campus.png <-> newlogo.svg)
+        let slideStateIndex = 0;
+        const imgCampus = document.getElementById('slide-campus');
+        const imgNewLogo = document.getElementById('slide-newlogo');
+
+        setInterval(() => {
+            if (imgCampus && imgNewLogo) {
+                if (slideStateIndex === 0) {
+                    imgCampus.classList.replace('opacity-100', 'opacity-0');
+                    imgNewLogo.classList.replace('opacity-0', 'opacity-100');
+                    slideStateIndex = 1;
+                } else {
+                    imgNewLogo.classList.replace('opacity-100', 'opacity-0');
+                    imgCampus.classList.replace('opacity-0', 'opacity-100');
+                    slideStateIndex = 0;
+                }
+            }
+        }, 5000);
+
+        // Schedule Day Switch
+        function toggle2026Day(targetDay) {
+            const d1Box = document.getElementById('panel-2026-day1');
+            const d2Box = document.getElementById('panel-2026-day2');
+            const b1Target = document.getElementById('t-btn1');
+            const b2Target = document.getElementById('t-btn2');
+
+            if (targetDay === 'day1') {
+                d1Box.classList.remove('hidden');
+                d2Box.classList.add('hidden');
+                b1Target.className = "px-6 py-3 bg-emerald-600 text-white rounded-none transition cursor-pointer";
+                b2Target.className = "px-6 py-3 hover:text-slate-900 rounded-none transition cursor-pointer";
+            } else {
+                d1Box.classList.add('hidden');
+                d2Box.classList.remove('hidden');
+                b1Target.className = "px-6 py-3 hover:text-slate-900 rounded-none transition cursor-pointer";
+                b2Target.className = "px-6 py-3 bg-emerald-600 text-white rounded-none transition cursor-pointer";
+            }
+        }
+    </script>
+
+</body>
+</html>

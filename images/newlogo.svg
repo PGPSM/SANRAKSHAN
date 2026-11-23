@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 140" width="100%" height="100%">
+  <defs>
+    <!-- Quantum AI Gradient (Deep Tech Blue to Electric Cyan) -->
+    <linearGradient id="quantumAI" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    
+    <!-- Bio-Intelligence Gradient (Vibrant Emerald to Mint) -->
+    <linearGradient id="bioIntelligence" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="60%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <!-- Synapse Glow Effect -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Icon: The Interlocking Cyber-Helix Layer -->
+  <g transform="translate(20, 15)">
+    <!-- Tech Grid Background Micro-Accents -->
+    <circle cx="55" cy="55" r="48" fill="none" stroke="#F1F5F9" stroke-width="1"/>
+    <path d="M 25 55 L 85 55 M 55 25 L 55 85" stroke="#E2E8F0" stroke-width="0.75" stroke-dasharray="2 2"/>
+
+    <!-- The Sustainability Leaf Loop (Solid, Curving Outward) -->
+    <path d="M55,15 C85,15 100,45 80,75 C65,95 35,95 25,70 C20,55 35,30 55,45" 
+          fill="none" stroke="url(#bioIntelligence)" stroke-width="6.5" stroke-linecap="round"/>
+
+    <!-- The AI Neural Loop (Weaving Through, High-Tech Circuit Traces) -->
+    <path d="M55,95 C25,95 10,65 30,35 C45,15 75,15 85,40 C90,55 75,80 55,65" 
+          fill="none" stroke="url(#quantumAI)" stroke-width="6.5" stroke-linecap="round" filter="url(#neonGlow)"/>
+
+    <!-- Central Neural Core Processor -->
+    <rect x="49" y="49" width="12" height="12" rx="3" fill="#0F172A" stroke="#06B6D4" stroke-width="1.5" />
+    
+    <!-- Glowing Synaptic Nodes (AI Intersection Points) -->
+    <circle cx="30" cy="35" r="3" fill="#06B6D4" filter="url(#neonGlow)"/>
+    <circle cx="80" cy="75" r="3" fill="#10B981" filter="url(#neonGlow)"/>
+    <circle cx="55" cy="15" r="4" fill="#3B82F6" filter="url(#neonGlow)"/>
+    <circle cx="85" cy="40" r="2.5" fill="#60A5FA"/>
+  </g>
+
+  <!-- Typography Layout (100% Verified Spelling) -->
+  <g transform="translate(150, 32)">
+    <!-- Primary Branding Wordmark -->
+    <text x="0" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Montserrat', sans-serif" font-size="36" font-weight="900" fill="#0F172A" letter-spacing="4">SANRAKSHAN</text>
+    <text x="312" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="36" font-weight="200" fill="#2563EB" letter-spacing="1">2026</text>
+    
+    <!-- Official Theme Line (Fully Corrected) -->
+    <text x="2" y="58" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="11" font-weight="800" fill="#059669" letter-spacing="3.8">RESILIENT BUSINESSES THROUGH SUSTAINABILITY &amp; AI</text>
+    
+    <!-- Institutional Authority Subtext -->
+    <text x="2" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="10.5" font-weight="600" fill="#64748B" letter-spacing="1.5">IIM LUCKNOW — NOIDA CAMPUS</text>
+  </g>
+</svg>
