@@ -164,6 +164,28 @@
         .sp-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
         .sp-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* Speakers: black and white portraits turn to colour on hover (devices with a mouse) */
+        .spk-img { transition: filter .6s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+        .spk:hover .spk-img { transform: scale(1.05); }
+        .spk-li { transition: opacity .3s ease, transform .3s ease; }
+        @media (hover: hover) {
+            .spk-img { filter: grayscale(1) contrast(1.05); }
+            .spk:hover .spk-img { filter: none; }
+            .spk-li { opacity: 0; transform: translateY(-4px); }
+            .spk:hover .spk-li { opacity: 1; transform: none; }
+        }
+
+        /* Moments: polaroid wall */
+        .moments-paper { background-color: #efe9df; background-image: radial-gradient(rgba(120,100,70,.08) 1px, transparent 1px); background-size: 18px 18px; }
+        .polaroid { position: relative; display: block; width: 100%; cursor: zoom-in; transform: rotate(var(--r)) translateY(var(--y)); transition: transform .45s cubic-bezier(.2,.8,.2,1), filter .45s ease, opacity .6s ease; filter: drop-shadow(0 10px 14px rgba(60,45,25,.22)); }
+        .polaroid.reveal { opacity: 0; transform: rotate(var(--r)) translateY(calc(var(--y) + 30px)); }
+        .polaroid.reveal.in { opacity: 1; transform: rotate(var(--r)) translateY(var(--y)); }
+        .polaroid:hover, .polaroid:focus-visible { transform: rotate(0deg) translateY(-8px) scale(1.06) !important; z-index: 20; filter: drop-shadow(0 24px 30px rgba(60,45,25,.32)); outline: none; }
+        .pol-tape { position: absolute; top: -10px; left: 50%; width: 64px; height: 22px; transform: translateX(-50%) rotate(-3deg); background: rgba(250,240,200,.75); box-shadow: 0 1px 2px rgba(0,0,0,.08); z-index: 2; }
+        #lightbox { transition: opacity .3s ease, visibility .3s; }
+        #lightbox.lb-hidden { opacity: 0; visibility: hidden; }
+        #lb-img { transition: opacity .25s ease; }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition: none !important; }
             .reveal { opacity: 1; transform: none; }
@@ -572,265 +594,283 @@
         </div>
     </section>
 
-    <!-- SPEAKERS 2026: one continuously scrolling row of photo cards -->
-    <section id="speakers" class="relative bg-stone-100 py-20 lg:py-24 overflow-hidden">
-        <div aria-hidden="true" class="blob absolute -top-40 right-[-10rem] h-[30rem] w-[30rem] rounded-full bg-emerald-200/40 blur-3xl"></div>
+    <!-- SPEAKERS 2026: portrait grid, black and white to colour on hover -->
+    <section id="speakers" class="relative bg-slate-950 text-white py-20 lg:py-28 overflow-hidden tech-grid-dark">
+        <div class="absolute inset-0 glow-emerald pointer-events-none"></div>
         <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 reveal">
-                <div class="max-w-2xl">
-                    <span class="eyebrow eb-emerald"><span class="eb-num">04</span>Speakers</span>
-                    <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">Our esteemed <span class="italic text-emerald-700">speakers</span></h2>
-                </div>
-                <p class="text-slate-600 text-lg max-w-md">Leaders from Zepto, HP, Dabur, GMR, Lupin, GSK and more. Click a name to view their LinkedIn.</p>
+            <div class="text-center max-w-2xl mx-auto reveal">
+                <span class="eyebrow eb-dark"><span class="eb-num">04</span>Speakers</span>
+                <h2 class="font-serif-display text-4xl lg:text-6xl font-semibold leading-tight mt-5">Our esteemed <span class="italic text-emerald-300">speakers</span></h2>
+                <p class="text-slate-400 text-lg mt-4">Leaders from Zepto, HP, Dabur, GMR, Lupin, GSK and more. Click a name to view their LinkedIn.</p>
             </div>
-        </div>
-        <div class="relative mt-10">
-            <div class="sp-mask">
-                <div class="sp-track flex gap-5 w-max py-4">
-                    <article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/ajay-kumar-goyal-0037b529/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Ajay Kumar Goyal on LinkedIn"><img src="images/speakers/ajay-kumar-goyal.webp" alt="Ajay Kumar Goyal" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/ajay-kumar-goyal-0037b529/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Ajay Kumar Goyal<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Financial Officer">Chief Financial Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Atain">Atain</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/bhatia-ankur/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Ankur Bhatia on LinkedIn"><span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-teal-500 to-cyan-700 text-white font-serif-display text-5xl font-semibold">AB</span></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/bhatia-ankur/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Ankur Bhatia<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="CEO">CEO</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Columbia Sportswear">Columbia Sportswear</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/kalyansun/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Kalyanasundaram Natarajan on LinkedIn"><img src="images/speakers/kalyanasundaram-natarajan.webp" alt="Kalyanasundaram Natarajan" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/kalyansun/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Kalyanasundaram Natarajan<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Director – Strategy, Compliance &amp; Governance">Director – Strategy, Compliance &amp; Governance</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="HP">HP</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/umesh-kaushik-a68b7a3b/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Umesh Kaushik on LinkedIn"><img src="images/speakers/umesh-kaushik.webp" alt="Umesh Kaushik" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/umesh-kaushik-a68b7a3b/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Umesh Kaushik<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Vice President – Operations">Vice President – Operations</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="The KariGhars">The KariGhars</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/abhirupd/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Abhirup Das on LinkedIn"><img src="images/speakers/abhirup-das.webp" alt="Abhirup Das" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/abhirupd/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Abhirup Das<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Operating Officer">Chief Operating Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Oren">Oren</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/venkateshmn22/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Venkatesh M N on LinkedIn"><img src="images/speakers/venkatesh-mn.webp" alt="Venkatesh M N" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/venkateshmn22/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Venkatesh M N<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Former Associate Director – Study Delivery Management">Former Associate Director – Study Delivery Management</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="GSK">GSK</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/manas-mehra/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Manas Mehra on LinkedIn"><img src="images/speakers/manas-mehra.webp" alt="Manas Mehra" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/manas-mehra/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Manas Mehra<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Global Chief Information Officer">Global Chief Information Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Dabur India Ltd">Dabur India Ltd</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/dr-ramesh-v-sasanur-67a90031/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Dr. Ramesh V. Sasanur on LinkedIn"><img src="images/speakers/ramesh-sasanur.webp" alt="Dr. Ramesh V. Sasanur" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/dr-ramesh-v-sasanur-67a90031/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Dr. Ramesh V. Sasanur<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Global Head &amp; Executive Director – CSR, Sustainability, ESG, Diversity &amp; Inclusion; CEO, Bhoruka Welfare">Global Head &amp; Executive Director – CSR, Sustainability, ESG, Diversity &amp; Inclusion; CEO, Bhoruka Welfare</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Bhoruka Group of Companies">Bhoruka Group of Companies</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/panduranga-acharya-7b856910/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Panduranga Acharya on LinkedIn"><img src="images/speakers/panduranga-acharya.webp" alt="Panduranga Acharya" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/panduranga-acharya-7b856910/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Panduranga Acharya<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="General Counsel">General Counsel</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Zepto">Zepto</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/sandipbalakrishnan/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Sandip Balakrishnan on LinkedIn"><img src="images/speakers/sandip-balakrishnan.webp" alt="Sandip Balakrishnan" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/sandipbalakrishnan/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Sandip Balakrishnan<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Operating Officer">Chief Operating Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Double Horse (Manjilas Food Tech Pvt Ltd)">Double Horse (Manjilas Food Tech Pvt Ltd)</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/shaunakvaidya0107/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Shaunak Vaidya on LinkedIn"><span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-teal-500 to-cyan-700 text-white font-serif-display text-5xl font-semibold">SV</span></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/shaunakvaidya0107/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Shaunak Vaidya<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Business Officer – Renewables">Chief Business Officer – Renewables</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="GMR Group">GMR Group</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/supratiksengupta/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Supratik Sengupta on LinkedIn"><span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-cyan-600 to-slate-800 text-white font-serif-display text-5xl font-semibold">SS</span></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/supratiksengupta/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Supratik Sengupta<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Marketing Officer">Chief Marketing Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="LupinLife Consumer Healthcare (Lupin Ltd)">LupinLife Consumer Healthcare (Lupin Ltd)</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300">
-                        <a href="https://www.linkedin.com/in/soundar-raj-1b31a924/" target="_blank" rel="noopener" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Soundar Raj on LinkedIn"><img src="images/speakers/soundar-raj.webp" alt="Soundar Raj" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/soundar-raj-1b31a924/" target="_blank" rel="noopener" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Soundar Raj<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Former CFO – SAPAC (Sales); Ex-CFO &amp; Board Member, NXP India">Former CFO – SAPAC (Sales); Ex-CFO &amp; Board Member, NXP India</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="NXP Semiconductors">NXP Semiconductors</p>
-                        </div>
-                    </article>
-                    <article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/ajay-kumar-goyal-0037b529/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Ajay Kumar Goyal on LinkedIn"><img src="images/speakers/ajay-kumar-goyal.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/ajay-kumar-goyal-0037b529/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Ajay Kumar Goyal<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Financial Officer">Chief Financial Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Atain">Atain</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/bhatia-ankur/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Ankur Bhatia on LinkedIn"><span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-teal-500 to-cyan-700 text-white font-serif-display text-5xl font-semibold">AB</span></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/bhatia-ankur/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Ankur Bhatia<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="CEO">CEO</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Columbia Sportswear">Columbia Sportswear</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/kalyansun/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Kalyanasundaram Natarajan on LinkedIn"><img src="images/speakers/kalyanasundaram-natarajan.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/kalyansun/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Kalyanasundaram Natarajan<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Director – Strategy, Compliance &amp; Governance">Director – Strategy, Compliance &amp; Governance</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="HP">HP</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/umesh-kaushik-a68b7a3b/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Umesh Kaushik on LinkedIn"><img src="images/speakers/umesh-kaushik.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/umesh-kaushik-a68b7a3b/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Umesh Kaushik<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Vice President – Operations">Vice President – Operations</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="The KariGhars">The KariGhars</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/abhirupd/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Abhirup Das on LinkedIn"><img src="images/speakers/abhirup-das.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/abhirupd/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Abhirup Das<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Operating Officer">Chief Operating Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Oren">Oren</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/venkateshmn22/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Venkatesh M N on LinkedIn"><img src="images/speakers/venkatesh-mn.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/venkateshmn22/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Venkatesh M N<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Former Associate Director – Study Delivery Management">Former Associate Director – Study Delivery Management</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="GSK">GSK</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/manas-mehra/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Manas Mehra on LinkedIn"><img src="images/speakers/manas-mehra.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/manas-mehra/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Manas Mehra<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Global Chief Information Officer">Global Chief Information Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Dabur India Ltd">Dabur India Ltd</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/dr-ramesh-v-sasanur-67a90031/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Dr. Ramesh V. Sasanur on LinkedIn"><img src="images/speakers/ramesh-sasanur.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/dr-ramesh-v-sasanur-67a90031/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Dr. Ramesh V. Sasanur<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Global Head &amp; Executive Director – CSR, Sustainability, ESG, Diversity &amp; Inclusion; CEO, Bhoruka Welfare">Global Head &amp; Executive Director – CSR, Sustainability, ESG, Diversity &amp; Inclusion; CEO, Bhoruka Welfare</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Bhoruka Group of Companies">Bhoruka Group of Companies</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/panduranga-acharya-7b856910/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Panduranga Acharya on LinkedIn"><img src="images/speakers/panduranga-acharya.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/panduranga-acharya-7b856910/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Panduranga Acharya<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="General Counsel">General Counsel</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Zepto">Zepto</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/sandipbalakrishnan/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Sandip Balakrishnan on LinkedIn"><img src="images/speakers/sandip-balakrishnan.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/sandipbalakrishnan/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Sandip Balakrishnan<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Operating Officer">Chief Operating Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="Double Horse (Manjilas Food Tech Pvt Ltd)">Double Horse (Manjilas Food Tech Pvt Ltd)</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/shaunakvaidya0107/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Shaunak Vaidya on LinkedIn"><span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-teal-500 to-cyan-700 text-white font-serif-display text-5xl font-semibold">SV</span></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/shaunakvaidya0107/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Shaunak Vaidya<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Business Officer – Renewables">Chief Business Officer – Renewables</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="GMR Group">GMR Group</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/supratiksengupta/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Supratik Sengupta on LinkedIn"><span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-cyan-600 to-slate-800 text-white font-serif-display text-5xl font-semibold">SS</span></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/supratiksengupta/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Supratik Sengupta<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Chief Marketing Officer">Chief Marketing Officer</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="LupinLife Consumer Healthcare (Lupin Ltd)">LupinLife Consumer Healthcare (Lupin Ltd)</p>
-                        </div>
-                    </article>
-<article class="sp-card group w-[230px] sm:w-[260px] shrink-0 rounded-2xl bg-white border border-slate-200 overflow-hidden hover:border-emerald-400 hover:shadow-xl hover:-translate-y-1 transition duration-300" aria-hidden="true">
-                        <a href="https://www.linkedin.com/in/soundar-raj-1b31a924/" target="_blank" rel="noopener" tabindex="-1" class="block aspect-square overflow-hidden bg-slate-100" aria-label="Soundar Raj on LinkedIn"><img src="images/speakers/soundar-raj.webp" alt="" width="520" height="520" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"></a>
-                        <div class="p-4 sm:p-5">
-                            <a href="https://www.linkedin.com/in/soundar-raj-1b31a924/" target="_blank" rel="noopener" tabindex="-1" class="inline-flex items-start gap-1.5 font-serif-display text-lg font-semibold leading-snug text-slate-900 hover:text-emerald-700 transition">Soundar Raj<span class="mt-1.5 text-[#0a66c2]"><svg class="w-4 h-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span></a>
-                            <p class="text-[13px] text-slate-600 mt-1.5 leading-snug line-clamp-2" title="Former CFO – SAPAC (Sales); Ex-CFO &amp; Board Member, NXP India">Former CFO – SAPAC (Sales); Ex-CFO &amp; Board Member, NXP India</p>
-                            <p class="text-[13px] font-bold text-slate-900 mt-1.5 line-clamp-1" title="NXP Semiconductors">NXP Semiconductors</p>
-                        </div>
-                    </article>
-                </div>
+            <div class="mt-14 flex flex-wrap justify-center gap-x-5 gap-y-10 sm:gap-x-6">
+                <article class="spk group reveal w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/ajay-kumar-goyal-0037b529/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/ajay-kumar-goyal.webp" alt="Ajay Kumar Goyal" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/ajay-kumar-goyal-0037b529/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Ajay Kumar Goyal, LinkedIn profile">Ajay Kumar Goyal</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Chief Financial Officer">Chief Financial Officer</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Atain">Atain</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d1 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/bhatia-ankur/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900 font-serif-display text-6xl font-semibold text-white/80">AB</span>
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/bhatia-ankur/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Ankur Bhatia, LinkedIn profile">Ankur Bhatia</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="CEO">CEO</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Columbia Sportswear">Columbia Sportswear</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d2 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/kalyansun/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/kalyanasundaram-natarajan.webp" alt="Kalyanasundaram Natarajan" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/kalyansun/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Kalyanasundaram Natarajan, LinkedIn profile">Kalyanasundaram Natarajan</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Director – Strategy, Compliance &amp; Governance">Director – Strategy, Compliance &amp; Governance</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="HP">HP</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d3 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/umesh-kaushik-a68b7a3b/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/umesh-kaushik.webp" alt="Umesh Kaushik" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/umesh-kaushik-a68b7a3b/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Umesh Kaushik, LinkedIn profile">Umesh Kaushik</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Vice President – Operations">Vice President – Operations</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="The KariGhars">The KariGhars</p>
+                    </div>
+                </article>
+                <article class="spk group reveal w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/abhirupd/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/abhirup-das.webp" alt="Abhirup Das" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/abhirupd/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Abhirup Das, LinkedIn profile">Abhirup Das</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Chief Operating Officer">Chief Operating Officer</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Oren">Oren</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d1 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/venkateshmn22/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/venkatesh-mn.webp" alt="Venkatesh M N" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/venkateshmn22/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Venkatesh M N, LinkedIn profile">Venkatesh M N</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Former Associate Director – Study Delivery Management">Former Associate Director – Study Delivery Management</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="GSK">GSK</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d2 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/manas-mehra/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/manas-mehra.webp" alt="Manas Mehra" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/manas-mehra/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Manas Mehra, LinkedIn profile">Manas Mehra</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Global Chief Information Officer">Global Chief Information Officer</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Dabur India Ltd">Dabur India Ltd</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d3 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/dr-ramesh-v-sasanur-67a90031/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/ramesh-sasanur.webp" alt="Dr. Ramesh V. Sasanur" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/dr-ramesh-v-sasanur-67a90031/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Dr. Ramesh V. Sasanur, LinkedIn profile">Dr. Ramesh V. Sasanur</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Global Head &amp; Executive Director – CSR, Sustainability, ESG, Diversity &amp; Inclusion; CEO, Bhoruka Welfare">Global Head &amp; Executive Director – CSR, Sustainability, ESG, Diversity &amp; Inclusion; CEO, Bhoruka Welfare</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Bhoruka Group of Companies">Bhoruka Group of Companies</p>
+                    </div>
+                </article>
+                <article class="spk group reveal w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/panduranga-acharya-7b856910/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/panduranga-acharya.webp" alt="Panduranga Acharya" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/panduranga-acharya-7b856910/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Panduranga Acharya, LinkedIn profile">Panduranga Acharya</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="General Counsel">General Counsel</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Zepto">Zepto</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d1 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/sandipbalakrishnan/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/sandip-balakrishnan.webp" alt="Sandip Balakrishnan" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/sandipbalakrishnan/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Sandip Balakrishnan, LinkedIn profile">Sandip Balakrishnan</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Chief Operating Officer">Chief Operating Officer</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="Double Horse (Manjilas Food Tech Pvt Ltd)">Double Horse (Manjilas Food Tech Pvt Ltd)</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d2 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/shaunakvaidya0107/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900 font-serif-display text-6xl font-semibold text-white/80">SV</span>
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/shaunakvaidya0107/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Shaunak Vaidya, LinkedIn profile">Shaunak Vaidya</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Chief Business Officer – Renewables">Chief Business Officer – Renewables</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="GMR Group">GMR Group</p>
+                    </div>
+                </article>
+                <article class="spk group reveal reveal-d3 w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/supratiksengupta/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <span class="h-full w-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900 font-serif-display text-6xl font-semibold text-white/80">SS</span>
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/supratiksengupta/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Supratik Sengupta, LinkedIn profile">Supratik Sengupta</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Chief Marketing Officer">Chief Marketing Officer</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="LupinLife Consumer Healthcare (Lupin Ltd)">LupinLife Consumer Healthcare (Lupin Ltd)</p>
+                    </div>
+                </article>
+                <article class="spk group reveal w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]">
+                    <a href="https://www.linkedin.com/in/soundar-raj-1b31a924/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-slate-800 ring-1 ring-white/10 group-hover:ring-emerald-400/60 transition">
+                        <img src="images/speakers/soundar-raj.webp" alt="Soundar Raj" width="480" height="600" loading="lazy" decoding="async" class="spk-img h-full w-full object-cover">
+                        <span class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></span>
+                        <span class="spk-li absolute right-3 top-3 h-9 w-9 rounded-full bg-white text-[#0a66c2] flex items-center justify-center shadow-lg"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+                    </a>
+                    <div class="mt-4">
+                        <a href="https://www.linkedin.com/in/soundar-raj-1b31a924/" target="_blank" rel="noopener" class="font-serif-display text-lg sm:text-xl font-semibold leading-snug text-white hover:text-emerald-300 transition" aria-label="Soundar Raj, LinkedIn profile">Soundar Raj</a>
+                        <p class="text-[13px] sm:text-sm text-slate-400 mt-1.5 leading-snug line-clamp-2" title="Former CFO – SAPAC (Sales); Ex-CFO &amp; Board Member, NXP India">Former CFO – SAPAC (Sales); Ex-CFO &amp; Board Member, NXP India</p>
+                        <p class="text-[13px] sm:text-sm font-semibold text-emerald-300 mt-1 line-clamp-1" title="NXP Semiconductors">NXP Semiconductors</p>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- MOMENTS: endless photo strip -->
-    <section class="bg-white pb-16 lg:pb-20 overflow-hidden" aria-label="Moments from Sanrakshan 2025">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center gap-4 mb-6">
-            <span class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap">Moments from Sanrakshan 2025</span>
-            <span class="h-px flex-1 bg-slate-200"></span>
-        </div>
-        <div class="marquee-mask">
-            <div class="marquee-track flex gap-4 w-max">
-                <!-- set 1 -->
-                <img src="images/panel3.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/cultural1.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/case2.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/panel4.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/registration1.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/cultural2.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/judge.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/panel2.webp" alt="" class="marquee-img" loading="lazy">
-                <img src="images/podium.webp" alt="" class="marquee-img" loading="lazy">
-                <!-- set 2 (duplicate for a seamless loop) -->
-                <img src="images/panel3.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/cultural1.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/case2.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/panel4.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/registration1.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/cultural2.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/judge.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/panel2.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
-                <img src="images/podium.webp" alt="" class="marquee-img" loading="lazy" aria-hidden="true">
+    <!-- MOMENTS: polaroid wall with full-screen viewer -->
+    <section id="moments" class="relative py-20 lg:py-28 overflow-hidden moments-paper">
+        <div class="relative max-w-6xl mx-auto px-5 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto reveal">
+                <span class="eyebrow eb-stone eb-plain">Looking back</span>
+                <h2 class="font-serif-display text-4xl lg:text-5xl font-semibold leading-tight mt-5">Moments from <span class="italic text-emerald-700">Sanrakshan '25</span></h2>
+                <p class="text-slate-600 text-lg mt-4">Click any photo to see it full size.</p>
+            </div>
+            <div class="mt-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-8 sm:gap-y-12">
+                <button type="button" class="polaroid reveal" style="--r:-3deg; --y:6px" data-full="images/moments/on-stage.webp" data-cap="Speakers on stage" aria-label="Open photo: Speakers on stage">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/on-stage.webp" alt="Speakers on stage at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Speakers on stage</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:2deg; --y:-4px" data-full="images/moments/startup-mela-1.webp" data-cap="Startup Mela" aria-label="Open photo: Startup Mela">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/startup-mela-1.webp" alt="Startup Mela at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Startup Mela</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:-1.5deg; --y:10px" data-full="images/panel3.webp" data-cap="The main stage" aria-label="Open photo: The main stage">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/panel3.webp" alt="The main stage at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">The main stage</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:3deg; --y:0px" data-full="images/moments/startup-mela-3.webp" data-cap="Startup showcase" aria-label="Open photo: Startup showcase">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/startup-mela-3.webp" alt="Startup showcase at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Startup showcase</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:-2.5deg; --y:-6px" data-full="images/podium.webp" data-cap="Keynote address" aria-label="Open photo: Keynote address">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/podium.webp" alt="Keynote address at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Keynote address</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:1.5deg; --y:8px" data-full="images/moments/startup-mela-2.webp" data-cap="Startup Mela" aria-label="Open photo: Startup Mela">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/startup-mela-2.webp" alt="Startup Mela at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Startup Mela</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:-2deg; --y:2px" data-full="images/panel2.webp" data-cap="Panel discussion" aria-label="Open photo: Panel discussion">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/panel2.webp" alt="Panel discussion at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Panel discussion</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:2.5deg; --y:-8px" data-full="images/cultural1.webp" data-cap="Cultural evening" aria-label="Open photo: Cultural evening">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/cultural1.webp" alt="Cultural evening at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Cultural evening</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:-3deg; --y:6px" data-full="images/moments/startup-mela-4.webp" data-cap="Startup Mela" aria-label="Open photo: Startup Mela">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/startup-mela-4.webp" alt="Startup Mela at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Startup Mela</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:1deg; --y:-2px" data-full="images/judge.webp" data-cap="Competition jury" aria-label="Open photo: Competition jury">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/judge.webp" alt="Competition jury at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Competition jury</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:-1.5deg; --y:10px" data-full="images/panel4.webp" data-cap="Panel discussion" aria-label="Open photo: Panel discussion">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/panel4.webp" alt="Panel discussion at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Panel discussion</span>
+                </button>
+                <button type="button" class="polaroid reveal" style="--r:3deg; --y:-4px" data-full="images/cultural2.webp" data-cap="Cultural evening" aria-label="Open photo: Cultural evening">
+                    <span class="pol-tape" aria-hidden="true"></span>
+                    <span class="block bg-white p-2 sm:p-3 pb-9 sm:pb-12 rounded-[3px]">
+                        <img src="images/moments/thumbs/cultural2.webp" alt="Cultural evening at Sanrakshan 2025" loading="lazy" decoding="async" class="block w-full aspect-[4/3] object-cover">
+                    </span>
+                    <span class="absolute left-0 right-0 bottom-2.5 sm:bottom-3.5 text-center font-serif-display italic text-[13px] sm:text-base text-slate-700">Cultural evening</span>
+                </button>
             </div>
         </div>
     </section>
+
+    <!-- Full-screen photo viewer -->
+    <div id="lightbox" class="lb-hidden fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button type="button" id="lb-close" class="absolute top-4 right-4 h-11 w-11 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center" aria-label="Close"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <button type="button" id="lb-prev" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center" aria-label="Previous photo"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg></button>
+        <figure class="max-w-6xl w-full flex flex-col items-center">
+            <img id="lb-img" src="" alt="" class="max-h-[78vh] w-auto max-w-full rounded-md shadow-2xl">
+            <figcaption class="mt-4 text-center text-white"><span id="lb-cap" class="font-serif-display italic text-xl"></span> <span id="lb-count" class="ml-2 font-label text-xs text-slate-400 tracking-widest"></span></figcaption>
+        </figure>
+        <button type="button" id="lb-next" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center" aria-label="Next photo"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg></button>
+    </div>
 
     <!-- COMPETITIONS: FANNED DECK (desktop) / SWIPE ROW (mobile) -->
     <section id="events" class="relative bg-slate-950 text-white py-20 lg:py-28 overflow-hidden tech-grid-dark">
@@ -1045,7 +1085,7 @@
             <div class="md:col-span-3 space-y-3">
                 <h4 class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">Contact</h4>
                 <p class="text-sm"><a href="mailto:sanrakshan@iiml.ac.in" class="text-emerald-400 hover:underline">sanrakshan@iiml.ac.in</a></p>
-                <p class="text-sm"><a href="http://iiml-sanraksan.com" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">iiml-sanraksan.com</a></p>
+                <p class="text-sm"><a href="https://pgpsm.github.io/SANRAKSHAN/" class="text-emerald-400 hover:underline">iiml-sanraksan.com</a></p>
             </div>
             <div class="md:col-span-4 space-y-3">
                 <h4 class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">Conclave secretaries</h4>
@@ -1193,6 +1233,37 @@
             addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
             addEventListener('resize', update);
             update();
+        })();
+    </script>
+    <script>
+        // ---- Moments: full-screen photo viewer ----
+        (function () {
+            const items = [...document.querySelectorAll('.polaroid')];
+            const box = document.getElementById('lightbox'), img = document.getElementById('lb-img');
+            const cap = document.getElementById('lb-cap'), count = document.getElementById('lb-count');
+            if (!items.length || !box) return;
+            let i = 0, lastFocus = null;
+            function show(n) {
+                i = (n + items.length) % items.length;
+                img.style.opacity = 0;
+                const src = items[i].dataset.full;
+                const pre = new Image(); pre.onload = () => { img.src = src; img.alt = items[i].dataset.cap; img.style.opacity = 1; }; pre.src = src;
+                cap.textContent = items[i].dataset.cap; count.textContent = (i + 1) + ' / ' + items.length;
+            }
+            function open(n) { lastFocus = document.activeElement; show(n); box.classList.remove('lb-hidden'); document.body.style.overflow = 'hidden'; document.getElementById('lb-close').focus(); }
+            function close() { box.classList.add('lb-hidden'); document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }
+            items.forEach((el, n) => el.addEventListener('click', () => open(n)));
+            document.getElementById('lb-close').addEventListener('click', close);
+            document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); show(i - 1); });
+            document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); show(i + 1); });
+            box.addEventListener('click', e => { if (e.target === box) close(); });
+            document.addEventListener('keydown', e => {
+                if (box.classList.contains('lb-hidden')) return;
+                if (e.key === 'Escape') close(); else if (e.key === 'ArrowLeft') show(i - 1); else if (e.key === 'ArrowRight') show(i + 1);
+            });
+            let x0 = null;
+            box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+            box.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
         })();
     </script>
 </body>
