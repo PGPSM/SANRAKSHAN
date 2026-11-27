@@ -103,7 +103,9 @@ function doPost(e) {
         return out_('exists');
       }
     }
-    const passNo = 'SAN26-' + String(100 + rows.length).padStart(4, '0');   // first sign-up = SAN26-0101
+    let top = 100;                                            // next number = highest issued + 1 (first = SAN26-0101),
+    rows.forEach(r => { const m = /^SAN26-(\d+)$/.exec(r[2]); if (m) top = Math.max(top, +m[1]); });   // so deleted rows never cause repeats
+    const passNo = 'SAN26-' + String(top + 1).padStart(4, '0');
     sh.appendRow([new Date(), email, passNo, '', '', clean_(p.page, 200), type, name, org]);
     const row = sh.getLastRow();
     if (canSend_()) {
