@@ -45,16 +45,19 @@ function doPost(e) {
     const rows = sh.getDataRange().getValues();
     for (let i = 1; i < rows.length; i++) {
       if (String(rows[i][1]).toLowerCase() === email) {      // already signed up: resend the SAME pass number
-        sendPass_(email, rows[i][2]);
-        sh.getRange(i + 1, 4).setValue(new Date());
+        if (canSend_()) { sendPass_(email, rows[i][2]); sh.getRange(i + 1, 4).setValue(new Date()); }
         return out_('exists');
       }
     }
     const passNo = 'SAN26-' + String(100 + rows.length).padStart(4, '0');   // first sign-up = SAN26-0101
     sh.appendRow([new Date(), email, passNo, '', '', String(e.parameter.page || '')]);
     const row = sh.getLastRow();
-    sendPass_(email, passNo);
-    sh.getRange(row, 4).setValue(new Date());
+    if (canSend_()) {
+      sendPass_(email, passNo);
+      sh.getRange(row, 4).setValue(new Date());
+    } else {
+      scheduleRetry_();          // daily limit reached: the pass goes out automatically within the hour after it resets
+    }
     return out_('ok');
   } finally {
     lock.releaseLock();
@@ -63,26 +66,49 @@ function doPost(e) {
 
 function doGet() { return out_("Sanrakshan '26 pass service is running."); }
 
-function sendReminders() {
+/**
+ * Daily email limit for this account (Workspace): 1,500 from scripts, 2,000 overall.
+ * The script always leaves RESERVE emails unused for the team's own mail.
+ */
+const RESERVE = 100;
+const REMIND_AT = new Date('2026-12-11T10:00:00+05:30');
+
+function canSend_() { return MailApp.getRemainingDailyQuota() > RESERVE; }
+
+function scheduleRetry_() {
+  const has = ScriptApp.getProjectTriggers().some(t => t.getHandlerFunction() === 'sendPending');
+  if (!has) ScriptApp.newTrigger('sendPending').timeBased().after(60 * 60 * 1000).create();
+}
+
+/** Runs at the reminder time (trigger), and hourly whenever something is waiting on the daily limit. */
+function sendReminders() { sendPending(); }
+
+function sendPending() {
+  ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === 'sendPending').forEach(t => ScriptApp.deleteTrigger(t));
   const sh = getSheet_();
   const rows = sh.getDataRange().getValues();
+  const now = new Date(), reminderDue = now >= REMIND_AT;
   for (let i = 1; i < rows.length; i++) {
-    const email = rows[i][1], passNo = rows[i][2], sent = rows[i][4];
-    if (!email || sent) continue;
-    if (MailApp.getRemainingDailyQuota() < 1) {   // out of quota: try the rest again in an hour
-      ScriptApp.newTrigger('sendReminders').timeBased().after(60 * 60 * 1000).create();
-      return;
+    const [signedUp, email, passNo, passSent, remSent] = rows[i];
+    if (!email) continue;
+    if (!passSent && now - new Date(signedUp) > 10 * 60 * 1000) {      // passes held back by the limit
+      if (!canSend_()) return scheduleRetry_();
+      sendPass_(email, passNo);
+      sh.getRange(i + 1, 4).setValue(new Date());
     }
-    MailApp.sendEmail({ to: email, subject: REMINDER_SUBJECT, name: FROM_NAME,
-      htmlBody: REMINDER_HTML.replace('{{PASS}}', passNo), body: plain_(passNo, true) });
-    sh.getRange(i + 1, 5).setValue(new Date());
+    if (reminderDue && !remSent) {                                      // day-before reminder, same pass number
+      if (!canSend_()) return scheduleRetry_();
+      MailApp.sendEmail({ to: email, subject: REMINDER_SUBJECT, name: FROM_NAME,
+        htmlBody: REMINDER_HTML.replace('{{PASS}}', passNo), body: plain_(passNo, true) });
+      sh.getRange(i + 1, 5).setValue(new Date());
+    }
   }
 }
 
 /** Run once: schedules the reminder for Fri 11 Dec 2026, 10:00 AM India time. */
 function setupReminderTrigger() {
   ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === 'sendReminders').forEach(t => ScriptApp.deleteTrigger(t));
-  ScriptApp.newTrigger('sendReminders').timeBased().at(new Date('2026-12-11T10:00:00+05:30')).create();
+  ScriptApp.newTrigger('sendReminders').timeBased().at(REMIND_AT).create();
   getSheet_();
 }
 
